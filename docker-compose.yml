@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: wacrm-app
     restart: always
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     env_file:
       - .env.local
     logging:
@@ -16,3 +16,19 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wacrm.rule=Host(`whatsapp.attlas.so`)"
+      - "traefik.http.routers.wacrm.entrypoints=websecure"
+      - "traefik.http.routers.wacrm.tls=true"
+      - "traefik.http.routers.wacrm.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.wacrm.loadbalancer.server.port=3000"
+      - "traefik.docker.network=root_default"
+    networks:
+      - root_default
+
+networks:
+  root_default:
+    external: true
+
+
