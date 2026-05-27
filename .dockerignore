@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+build
+.git
+.github
+*.log
+.env.local
+supabase/combined_migrations.sql
